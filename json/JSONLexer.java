@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.json;
+package com.vicinityconcepts.lib.json;
 
-import com.vicinityconcepts.util.NegatingStack;
+import com.vicinityconcepts.lib.util.NegatingStack;
 
 import java.util.*;
 

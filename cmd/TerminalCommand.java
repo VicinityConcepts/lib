@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.cmd;
+package com.vicinityconcepts.lib.cmd;
 
 /**
  * An object that describes a terminal command including the key

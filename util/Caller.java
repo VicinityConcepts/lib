@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.util;
+package com.vicinityconcepts.lib.util;
 
 /**
  * Simple data structure to store information about calling code, including

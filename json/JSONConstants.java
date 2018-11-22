@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.json;
+package com.vicinityconcepts.lib.json;
 
-import com.vicinityconcepts.util.Tuple;
+import com.vicinityconcepts.lib.util.Tuple;
 
 interface JSONConstants {
 	Tuple<Character> ARRAY_BOUNDARY = new Tuple<>('[', ']');

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.cmd;
+package com.vicinityconcepts.lib.cmd;
 
-import com.vicinityconcepts.util.InputReader;
-import com.vicinityconcepts.util.Log;
-import com.vicinityconcepts.util.Procedure;
-import com.vicinityconcepts.util.Service;
+import com.vicinityconcepts.lib.util.InputReader;
+import com.vicinityconcepts.lib.util.Log;
+import com.vicinityconcepts.lib.util.Procedure;
+import com.vicinityconcepts.lib.util.Service;
 
 import java.io.InputStream;
 import java.io.OutputStream;

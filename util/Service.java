@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.util;
+package com.vicinityconcepts.lib.util;
 
 /**
  * A service is an ongoing processes that performs the same task

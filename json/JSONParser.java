@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.json;
+package com.vicinityconcepts.lib.json;
 
 public class JSONParser implements JSONConstants {
 	private static final String ERROR_ARRAY_BOUNDARY = "JSON arrays must start and end with " + ARRAY_BOUNDARY.left + " array " + ARRAY_BOUNDARY.right + " boundaries.";

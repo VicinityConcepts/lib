@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.json;
+package com.vicinityconcepts.lib.json;
 
 public class JSONToken {
 	private static final String ERROR_GET_CHAR = "Tried to get non-char value as char from JSON token: %s";

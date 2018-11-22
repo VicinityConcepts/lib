@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.cmd;
+package com.vicinityconcepts.lib.cmd;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.json;
+package com.vicinityconcepts.lib.json;
 
 import java.util.ArrayList;
 import java.util.List;

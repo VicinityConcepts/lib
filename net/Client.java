@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.net;
+package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.util.Log;
-import com.vicinityconcepts.util.Service;
+import com.vicinityconcepts.lib.util.Log;
+import com.vicinityconcepts.lib.util.Service;
 
 import java.io.*;
 import java.net.InetAddress;

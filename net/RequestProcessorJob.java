@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.net;
+package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.util.Job;
-import com.vicinityconcepts.util.Log;
+import com.vicinityconcepts.lib.util.Job;
+import com.vicinityconcepts.lib.util.Log;
 
 public abstract class RequestProcessorJob extends Job {
 	private static final String ERROR_KILL = "Cannot kill request processor while it is processing.";

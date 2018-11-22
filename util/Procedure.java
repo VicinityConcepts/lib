@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.util;
+package com.vicinityconcepts.lib.util;
 
 /**
  * A procedure is anything that can be started and stopped. It also

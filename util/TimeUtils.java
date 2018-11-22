@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.util;
+package com.vicinityconcepts.lib.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

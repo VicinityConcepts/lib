@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.net;
+package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.util.*;
+import com.vicinityconcepts.lib.util.*;
 
 import java.lang.reflect.InvocationTargetException;
 

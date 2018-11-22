@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.cmd;
+package com.vicinityconcepts.lib.cmd;
 
 public class DuplicateCommandException extends Exception {
 	private static final String MESSAGE_FORMAT = "Command '%s' is already assigned.";

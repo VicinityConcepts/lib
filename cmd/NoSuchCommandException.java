@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.cmd;
+package com.vicinityconcepts.lib.cmd;
 
 public class NoSuchCommandException extends Exception {
 	private static final String MESSAGE_FORMAT = "Command '%s' does not exist.";

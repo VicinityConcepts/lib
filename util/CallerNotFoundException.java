@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicinityconcepts.util;
+package com.vicinityconcepts.lib.util;
 
 public class CallerNotFoundException extends Exception {
 	private static final String MESSAGE = "Unable to determine caller from current stack trace.";
