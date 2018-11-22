@@ -44,9 +44,15 @@ import java.util.Set;
  * @author Ryan Palmer
  */
 public class TerminalCommandRegistry {
+	private static final String ERROR_NO_SUCH_COMMAND = "Command '%s' does not exist.";
+	private static final String ERROR_RESERVED_COMMAND = "Command '%s' is reserved and cannot be set.";
+
 	/**
-	 * Mapping of keys and commands. Each key in the map should always be equal
-	 * to the key of the corresponding command object.
+	 * Mapping of keys and commands.
+	 *
+	 * <p>
+	 * Each key in the map should always be equal to the key of the corresponding command object.
+	 * </p>
 	 */
 	private final Map<String, TerminalCommand> commands;
 
@@ -56,8 +62,7 @@ public class TerminalCommandRegistry {
 	private final Set<String> reservedCommands;
 
 	/**
-	 * Construct a new empty terminal command registry to manage
-	 * and execute terminal commands.
+	 * Construct a new empty terminal command registry to manage and execute terminal commands.
 	 */
 	public TerminalCommandRegistry() {
 		commands = new HashMap<>();
@@ -65,9 +70,12 @@ public class TerminalCommandRegistry {
 	}
 
 	/**
-	 * Construct a new terminal command registry with preset commands. All
-	 * preset commands will be automatically reserved, which means they
+	 * Construct a new terminal command registry with preset commands.
+	 *
+	 * <p>
+	 * All preset commands will be automatically reserved, which means they
 	 * cannot be replaced or removed.
+	 * </p>
 	 *
 	 * @param presets List of commands to add and reserve
 	 */
@@ -77,16 +85,19 @@ public class TerminalCommandRegistry {
 			try {
 				put(command);
 				reserve(command.getKey());
-			} catch (ReservedCommandException ignore) {
+			} catch (TerminalCommandException ignore) {
 				// This would only happen if the same command was passed twice
 			}
 		}
 	}
 
 	/**
-	 * Reserve a command. Reserved commands cannot be put into or removed from
-	 * the registry. If the reserved command already exists in the registry,
-	 * this will protect it from being overwritten.
+	 * Reserve a command.
+	 *
+	 * <p>
+	 * Reserved commands cannot be put into or removed from the registry. If the reserved command
+	 * already exists in the registry, this will protect it from being overwritten.
+	 * </p>
 	 *
 	 * @param key Command to reserve
 	 */
@@ -95,8 +106,7 @@ public class TerminalCommandRegistry {
 	}
 
 	/**
-	 * Allow a previously reserved command, enabling it to be added to or
-	 * removed from the registry.
+	 * Allow a previously reserved command, enabling it to be added to or removed from the registry.
 	 *
 	 * @param key Command to allow
 	 */
@@ -108,19 +118,20 @@ public class TerminalCommandRegistry {
 	 * Put a command in the registry.
 	 *
 	 * @param command Command to add
-	 * @throws ReservedCommandException if command is reserved
+	 * @throws TerminalCommandException if command is reserved
 	 */
-	public synchronized void put(final TerminalCommand command) throws ReservedCommandException {
+	public synchronized void put(final TerminalCommand command) throws TerminalCommandException {
 		String key = command.getKey();
-		if (reservedCommands.contains(key)) throw new ReservedCommandException(key);
+		if (reservedCommands.contains(key))
+			throw new TerminalCommandException(String.format(ERROR_RESERVED_COMMAND, key));
 		commands.put(key, command);
 	}
 
 	/**
-	 * Check if a matching command exists in the registry. Two commands are
-	 * considered matching if they have the same key.
+	 * Check if a command with the same key exists in the registry.
 	 *
-	 * @param command Command to check for
+	 * @param command The command to check for.
+	 * @return true if the command exists in the registry.
 	 */
 	public synchronized boolean contains(final TerminalCommand command) {
 		return commands.containsKey(command.getKey());
@@ -129,7 +140,8 @@ public class TerminalCommandRegistry {
 	/**
 	 * Check if a command with this key exists in the registry.
 	 *
-	 * @param key Key to check for
+	 * @param key The key to check for.
+	 * @return true if the command exists in the registry.
 	 */
 	public synchronized boolean contains(final String key) {
 		return commands.containsKey(key);
@@ -138,22 +150,26 @@ public class TerminalCommandRegistry {
 	/**
 	 * Remove a command from the registry.
 	 *
-	 * @param key Command to remove
-	 * @throws ReservedCommandException if command is reserved
+	 * @param key The command to remove.
+	 * @return the command object that was removed.
+	 * @throws TerminalCommandException if command is reserved. Reserved commands cannot be overwritten
+	 *                                  or removed from the registry.
 	 */
-	public synchronized TerminalCommand remove(final String key) throws ReservedCommandException {
-		if (reservedCommands.contains(key)) throw new ReservedCommandException(key);
+	public synchronized TerminalCommand remove(final String key) throws TerminalCommandException {
+		if (reservedCommands.contains(key))
+			throw new TerminalCommandException(String.format(ERROR_RESERVED_COMMAND, key));
 		return commands.remove(key);
 	}
 
 	/**
 	 * Get a specific command from the registry.
 	 *
-	 * @param key The command to get
-	 * @throws NoSuchCommandException if command does not exist
+	 * @param key The command to get.
+	 * @return the command object matching the specified key.
+	 * @throws TerminalCommandException if command does not exist.
 	 */
-	public synchronized TerminalCommand get(final String key) throws NoSuchCommandException {
-		if (!contains(key)) throw new NoSuchCommandException(key);
+	public synchronized TerminalCommand get(final String key) throws TerminalCommandException {
+		if (!contains(key)) throw new TerminalCommandException(String.format(ERROR_NO_SUCH_COMMAND, key));
 		return commands.get(key);
 	}
 
@@ -161,15 +177,15 @@ public class TerminalCommandRegistry {
 	 * Attempts to execute the specified command.
 	 *
 	 * @param key The command to execute
-	 * @throws NoSuchCommandException if command does not exist
+	 * @throws TerminalCommandException if command does not exist
 	 */
-	public synchronized void execute(final String key) throws NoSuchCommandException {
-		if (!contains(key)) throw new NoSuchCommandException(key);
+	public synchronized void execute(final String key) throws TerminalCommandException {
+		if (!contains(key)) throw new TerminalCommandException(String.format(ERROR_NO_SUCH_COMMAND, key));
 		else commands.get(key).execute();
 	}
 
 	/**
-	 * Get a full list of human-readable descriptions of all commands.
+	 * @return a full list of human-readable descriptions of all commands.
 	 */
 	@Override
 	public String toString() {

@@ -24,9 +24,6 @@ import java.util.Scanner;
  * @author Ryan Palmer
  */
 public final class TextUtils {
-	/**
-	 * Constants
-	 */
 	private static final int SOURCE_SNIPPET_PADDING = 5;
 	private static final String SOURCE_SNIPPET_FORMAT = "%s\n%s%s";
 	private static final String SOURCE_SNIPPET_LINE_FORMAT = "%s | %s\n";
@@ -35,7 +32,7 @@ public final class TextUtils {
 	private static final char SOURCE_SNIPPET_BORDER_CHAR = '=';
 
 	/**
-	 * This class cannot be constructed
+	 * This class cannot be constructed.
 	 */
 	private TextUtils() {
 	}
@@ -49,10 +46,11 @@ public final class TextUtils {
 	 * the pad character, the result will be "ZZZZZHello".
 	 * </p>
 	 *
-	 * @param text    The text to apply padding to
+	 * @param text    The text to apply padding to.
 	 * @param width   The width of the resulting string, which must be greater than
-	 *                or equal to the length of the original string
-	 * @param padChar The character to fill the extra space with
+	 *                or equal to the length of the original string.
+	 * @param padChar The character to fill the extra space with.
+	 * @return the resulting padded text.
 	 */
 	public static String padTextLeft(String text, int width, char padChar) {
 		int amount = width - text.length();
@@ -69,10 +67,11 @@ public final class TextUtils {
 	 * the pad character, the result will be "HelloZZZZZ".
 	 * </p>
 	 *
-	 * @param text    The text to apply padding to
+	 * @param text    The text to apply padding to.
 	 * @param width   The width of the resulting string, which must be greater than
-	 *                or equal to the length of the original string
-	 * @param padChar The character to fill the extra space with
+	 *                or equal to the length of the original string.
+	 * @param padChar The character to fill the extra space with.
+	 * @return the resulting padded text.
 	 */
 	public static String padTextRight(String text, int width, char padChar) {
 		int amount = width - text.length();
@@ -84,7 +83,8 @@ public final class TextUtils {
 	 * Convert a snippet of source code into a log-friendly string, converting tabs to
 	 * spaces, adding line numbers, and surrounding the snippet with border separators.
 	 *
-	 * @param source The source code snippet to format
+	 * @param source The source code snippet to format.
+	 * @return the formatted result.
 	 */
 	public static String formatSourceCodeSnippet(String source) {
 		source = source.replace(TAB, SOURCE_SNIPPET_TAB_REPLACEMENT); // Convert tabs to spaces
@@ -104,11 +104,11 @@ public final class TextUtils {
 	}
 
 	/**
-	 * Create a string consisting of the same character repeated a specified number
-	 * of times.
+	 * Create a string consisting of the same character repeated a specified number of times.
 	 *
-	 * @param c     The character to repeat
-	 * @param count The number of times to repeat the character
+	 * @param c     The character to repeat.
+	 * @param count The number of times to repeat the character.
+	 * @return the string containing the repeated character.
 	 */
 	private static String repeatChar(char c, int count) {
 		StringBuilder sb = new StringBuilder();

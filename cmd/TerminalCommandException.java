@@ -16,10 +16,19 @@
 
 package com.vicinityconcepts.lib.cmd;
 
-public class ReservedCommandException extends Exception {
-	private static final String MESSAGE_FORMAT = "Command '%s' is reserved and cannot be set.";
+/**
+ * Used for errors that occur when configuring and executing {@link Terminal} commands.
+ *
+ * @author Ryan Palmer
+ */
+public class TerminalCommandException extends Exception {
 
-	public ReservedCommandException(String command) {
-		super(String.format(MESSAGE_FORMAT, command));
+	/**
+	 * Construct a new {@link TerminalCommandException} with the specified message.
+	 *
+	 * @param message The message to display with the exception.
+	 */
+	public TerminalCommandException(String message) {
+		super(message);
 	}
 }

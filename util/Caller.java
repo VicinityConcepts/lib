@@ -75,8 +75,11 @@ public class Caller {
 	}
 
 	/**
-	 * Get the caller by reading a previous stack trace element. Useful as a
-	 * fallback if automatically inferring the caller is unsuccessful.
+	 * Get the caller by reading a previous stack trace element.
+	 *
+	 * <p>
+	 * Useful as a fallback if automatically inferring the caller is unsuccessful.
+	 * </p>
 	 *
 	 * @param steps Number of times to step backwards through the stack trace.
 	 * @return a new {@link Caller} based on the calling code.
@@ -96,8 +99,12 @@ public class Caller {
 	}
 
 	/**
-	 * Get a caller without any useful information. Can be used when inferring and rewinding
-	 * both fail, but you still need to pass along some kind of caller object.
+	 * Get a caller without any useful information.
+	 *
+	 * <p>
+	 * Can be used when inferring and rewinding both fail, but you still need to pass along
+	 * some kind of caller object.
+	 * </p>
 	 *
 	 * @return a new {@link Caller} with default values representing unknown calling code.
 	 */

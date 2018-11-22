@@ -22,12 +22,8 @@ package com.vicinityconcepts.lib.cmd;
  * configurations.
  *
  * @author Ryan Palmer
- * @c
  */
 public class TerminalCommand {
-	/**
-	 * String constants
-	 */
 	private static final String STRING_FORMAT = "%s: %s";
 	private static final String NO_DESCRIPTION = "No description.";
 
@@ -49,8 +45,8 @@ public class TerminalCommand {
 	/**
 	 * Construct a new terminal command with no description.
 	 *
-	 * @param key    The key by which this command will be invoked
-	 * @param action The action that this command will perform
+	 * @param key    The key by which this command will be invoked.
+	 * @param action The action that this command will perform.
 	 */
 	public TerminalCommand(String key, Runnable action) {
 		this(key, action, null);
@@ -59,9 +55,9 @@ public class TerminalCommand {
 	/**
 	 * Construct a new terminal command.
 	 *
-	 * @param key         The key by which this command will be invoked
-	 * @param action      The action that this command will perform
-	 * @param description A brief description of this command
+	 * @param key         The key by which this command will be invoked.
+	 * @param action      The action that this command will perform.
+	 * @param description A brief description of this command.
 	 */
 	public TerminalCommand(String key, Runnable action, String description) {
 		this.key = key;
@@ -70,37 +66,35 @@ public class TerminalCommand {
 	}
 
 	/**
-	 * @return this command's key
+	 * @return this command's key.
 	 */
 	public String getKey() {
 		return key;
 	}
 
 	/**
-	 * @return this command's action
+	 * @return this command's action.
 	 */
 	public Runnable getAction() {
 		return action;
 	}
 
 	/**
-	 * @return this command's description
+	 * @return this command's description.
 	 */
 	public String getDescription() {
 		return (description != null) ? description : NO_DESCRIPTION;
 	}
 
 	/**
-	 * Execute this command's action. If the specified action is null,
-	 * nothing will happen.
+	 * Execute this command's action. If the specified action is null, nothing will happen.
 	 */
 	public void execute() {
 		if (action != null) action.run();
 	}
 
 	/**
-	 * Get a human-readable description of this command suitable for help
-	 * pages or simple documentation.
+	 * @return a human-readable description of this command.
 	 */
 	@Override
 	public String toString() {

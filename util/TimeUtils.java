@@ -25,14 +25,11 @@ import java.time.format.DateTimeFormatter;
  * @author Ryan Palmer
  */
 public final class TimeUtils {
-	/**
-	 * Constants
-	 */
 	private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static final String TIMESTAMP_FORMAT = "%s.%s";
 
 	/**
-	 * This class cannot be constructed
+	 * This class cannot be constructed.
 	 */
 	private TimeUtils() {
 	}
@@ -47,16 +44,14 @@ public final class TimeUtils {
 	}
 
 	/**
-	 * Get a string representation of the current date and time in the
-	 * default format.
+	 * @return a string representation of the current date and time in the default format.
 	 */
 	public static String getTimestamp() {
 		return getTimestamp(DATE_TIME_FORMAT);
 	}
 
 	/**
-	 * Get the amount of milliseconds elapsed in the current second, which
-	 * will be a value between 0 and 999.
+	 * @return the amount of milliseconds elapsed in the current second. (0 - 999)
 	 */
 	public static int getCurrentSecondMillis() {
 		String ms = Long.toString(System.currentTimeMillis());

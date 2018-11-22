@@ -17,15 +17,11 @@
 package com.vicinityconcepts.lib.util;
 
 /**
- * Manages a specified number of workers, ensuring balanced
- * job distribution.
+ * Manages a specified number of workers, ensuring balanced job distribution.
  *
  * @author Ryan Palmer
  */
 public class WorkerPool implements Procedure {
-	/**
-	 * Constants
-	 */
 	private static final int MINIMUM_SIZE = 2;
 	private static final String WORKER_NAME_FORMAT = "Worker-%d";
 	private static final String POOL_TOO_SMALL = "Specified worker pool size (%d) does not meet minimum size requirement (%d).";
@@ -38,7 +34,7 @@ public class WorkerPool implements Procedure {
 	/**
 	 * Construct a new worker pool of the specified size.
 	 *
-	 * @param size Number of workers in this pool
+	 * @param size Number of workers in this pool.
 	 */
 	public WorkerPool(int size) {
 		if (size < MINIMUM_SIZE) throw new IllegalArgumentException(String.format(POOL_TOO_SMALL, size, MINIMUM_SIZE));
@@ -74,7 +70,7 @@ public class WorkerPool implements Procedure {
 	}
 
 	/**
-	 * See if any workers in this pool are currently running.
+	 * @return true if any workers in this pool are currently running.
 	 */
 	public boolean isRunning() {
 		for (Worker w : workers) if (w.isRunning()) return true;
@@ -82,7 +78,7 @@ public class WorkerPool implements Procedure {
 	}
 
 	/**
-	 * See if all workers in this pool are finished.
+	 * @return true if all workers in this pool are finished.
 	 */
 	public boolean isFinished() {
 		for (Worker w : workers) if (!w.isFinished()) return false;
@@ -100,8 +96,9 @@ public class WorkerPool implements Procedure {
 	}
 
 	/**
-	 * Find the worker with the lowest number of jobs in
-	 * its queue.
+	 * Find the worker with the lowest number of jobs in its queue.
+	 *
+	 * @return the worker with the fewest queued jobs.
 	 */
 	private Worker findSuitableWorker() {
 		Worker suitable = workers[0];

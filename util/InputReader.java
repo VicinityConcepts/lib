@@ -39,7 +39,7 @@ public class InputReader extends BufferedReader {
 	/**
 	 * Construct an input reader to read from the specified stream.
 	 *
-	 * @param input The stream to read from
+	 * @param input The stream to read from.
 	 */
 	public InputReader(InputStream input) {
 		super(new InputStreamReader(input));

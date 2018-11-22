@@ -24,9 +24,6 @@ package com.vicinityconcepts.lib.util;
  * @author Ryan Palmer
  */
 public abstract class Service implements Procedure {
-	/**
-	 * Constants
-	 */
 	private static final String SERVICE_STARTED = "Service starting up: %s";
 	private static final String SERVICE_STOPPED = "Service shutting down: %s";
 	private static final String ERROR_INVALID_LOOP_RATE = "Specified loop rate (%d) is lower than the minimum required loop rate (%d).";
@@ -83,9 +80,13 @@ public abstract class Service implements Procedure {
 	}
 
 	/**
-	 * Initiate shutdown of this service. The service will still finish the
+	 * Initiate shutdown of this service.
+	 *
+	 * <p>
+	 * The service will still finish the
 	 * current iteration of the main execution loop. Does nothing if this
 	 * service has already been stopped
+	 * </p>
 	 */
 	@Override
 	public void stop() {
@@ -96,11 +97,13 @@ public abstract class Service implements Procedure {
 	}
 
 	/**
-	 * Restart this service, waiting for it to fully shut down and then starting
-	 * it again. This is a blocking method that will join the service's thread
-	 * until it completes.
+	 * Restart this service, waiting for it to fully shut down and then starting it again.
 	 *
-	 * @throws InterruptedException
+	 * <p>
+	 * This is a blocking method that will join the service's thread until it completes.
+	 * </p>
+	 *
+	 * @throws InterruptedException if the thread is interrupted while restarting.
 	 */
 	public void restart() throws InterruptedException {
 		stop();
@@ -112,7 +115,7 @@ public abstract class Service implements Procedure {
 	 * Wait for this service to completely finish execution. Returns immediately
 	 * if the service has not started yet.
 	 *
-	 * @throws InterruptedException
+	 * @throws InterruptedException if the thread is interrupted while joined.
 	 */
 	public void join() throws InterruptedException {
 		if (thread.isAlive()) thread.join();
@@ -123,8 +126,8 @@ public abstract class Service implements Procedure {
 	 * after a specified duration. Returns immediately if the service has
 	 * not started yet.
 	 *
-	 * @param timeout Amount of time to wait for this service to finish
-	 * @throws InterruptedException
+	 * @param timeout Amount of time to wait for this service to finish.
+	 * @throws InterruptedException if the thread is interrupted while joined.
 	 */
 	public void join(long timeout) throws InterruptedException {
 		if (thread.isAlive()) thread.join(timeout);
@@ -147,24 +150,30 @@ public abstract class Service implements Procedure {
 	}
 
 	/**
-	 * Called repeatedly in a loop until the service is stopped. The thread
-	 * will sleep for the amount of time specified by the loop rate
+	 * Called repeatedly in a loop until the service is stopped.
+	 *
+	 * <p>
+	 * The thread will sleep for the amount of time specified by the loop rate
 	 * between each call to this method. However, this is merely to prevent
 	 * loops that would otherwise run too fast. It would be very wise to
 	 * allow the thread to suspend execution until it has meaningful work
 	 * to do in your implementation of this method.
+	 * </p>
 	 */
 	protected abstract void run();
 
 	/**
 	 * Set the amount of time that the thread will wait between loops.
+	 *
+	 * <p>
 	 * Use extreme caution when setting this to a low value. Low loop
 	 * rates can cause a significant resource burden, especially when
 	 * a lot of services are running at the same time. Loop rates of
 	 * more than 60 loops per second are not allowed, so this value
 	 * cannot be less than 1000 / 60.
+	 * </p>
 	 *
-	 * @param rate Number of milliseconds to wait
+	 * @param rate Number of milliseconds to wait.
 	 * @throws IllegalArgumentException if the specified loop rate is
 	 *                                  below the minimum requirement.
 	 */
@@ -175,25 +184,35 @@ public abstract class Service implements Procedure {
 	}
 
 	/**
-	 * Check if this service is running. Even if false, the service may
-	 * still be in the process of executing its final iteration of the
-	 * execution loop. To see if the service has finished completely,
-	 * use isFinished().
+	 * Check if this service is running.
+	 *
+	 * <p>
+	 * Even if false, the service may still be in the process of executing
+	 * its final iteration of the execution loop. To see if the service has
+	 * finished completely, use isFinished().
+	 * </p>
+	 *
+	 * @return true if the service has not finished running yet.
 	 */
 	public boolean isRunning() {
 		return running;
 	}
 
 	/**
-	 * Check if this thread has stopped running and finished all exit
-	 * activities. Useful if you need to be sure cleanup is done.
+	 * Check if this thread has stopped running and finished all exit activities.
+	 *
+	 * <p>
+	 * Useful if you need to be sure cleanup is done.
+	 * </p>
+	 *
+	 * @return true if the service has completely finished running.
 	 */
 	public boolean isFinished() {
 		return finished;
 	}
 
 	/**
-	 * Get the name of this service's thread.
+	 * @return the name of this service's thread.
 	 */
 	@Override
 	public final String getName() {
@@ -201,8 +220,11 @@ public abstract class Service implements Procedure {
 	}
 
 	/**
-	 * Set the name of this service's thread. Service must be restarted
-	 * for new name to take effect.
+	 * Set the name of this service's thread.
+	 *
+	 * <p>
+	 * Service must be restarted for new name to take effect.
+	 * </p>
 	 */
 	public final void setName(String name) {
 		this.name = name;

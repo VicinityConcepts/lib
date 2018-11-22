@@ -19,15 +19,11 @@ package com.vicinityconcepts.lib.util;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * A worker is a service that picks up and executes jobs using
- * a queue.
+ * A worker is a service that picks up and executes jobs using a queue.
  *
  * @author Ryan Palmer
  */
 public class Worker extends Service {
-	/**
-	 * Constants
-	 */
 	private static final String STARTED_JOB = "%s started: %s";
 	private static final String FINISHED_JOB = "%s finished: %s";
 	private static final String KILLED_JOB = "%s killed: %s";
@@ -74,7 +70,7 @@ public class Worker extends Service {
 	 * Adds a job to this worker's queue. Queued jobs are picked up and executed
 	 * in the order in which they were received.
 	 *
-	 * @param job The job to add to the queue
+	 * @param job The job to add to the queue.
 	 */
 	public void assign(Job job) {
 		synchronized (queue) {
@@ -87,7 +83,7 @@ public class Worker extends Service {
 	 * Take the next job out of the queue. Synchronized to ensure thread safety
 	 * of the current job object.
 	 *
-	 * @return true if a job was picked up, false if not
+	 * @return true if a job was picked up, false if not.
 	 */
 	private synchronized boolean pickUpNewJob() {
 		current = queue.poll();
@@ -95,16 +91,22 @@ public class Worker extends Service {
 	}
 
 	/**
-	 * Clears the current job. Synchronized to ensure thread safety
-	 * of the current job object.
+	 * Clears the current job.
+	 *
+	 * <p>
+	 * Synchronized to ensure thread safety of the current job object.
+	 * </p>
 	 */
 	private synchronized void clearCurrentJob() {
 		current = null;
 	}
 
 	/**
-	 * Kill the current job if one exists. Synchronized to ensure thread safety
-	 * of the current job object.
+	 * Kill the current job if one exists.
+	 *
+	 * <p>
+	 * Synchronized to ensure thread safety of the current job object.
+	 * </p>
 	 */
 	private synchronized void killCurrentJob() {
 		if (current != null) {
@@ -127,7 +129,7 @@ public class Worker extends Service {
 	}
 
 	/**
-	 * Get the number of jobs in this worker's queue.
+	 * @return the number of jobs in this worker's queue.
 	 */
 	public int getQueueSize() {
 		return queue.size();

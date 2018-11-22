@@ -24,12 +24,12 @@ package com.vicinityconcepts.lib.util;
  */
 public interface Procedure {
 	/**
-	 * Start the procedure
+	 * Start the procedure.
 	 */
 	void start();
 
 	/**
-	 * Stop the procedure
+	 * Stop the procedure.
 	 */
 	void stop();
 

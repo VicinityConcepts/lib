@@ -50,29 +50,32 @@ import java.io.PrintStream;
  * @author Ryan Palmer
  */
 public class Terminal extends Service {
-	/**
-	 * Default I/O
-	 */
 	private static final InputStream DEFAULT_INPUT = System.in;
 	private static final OutputStream DEFAULT_OUTPUT = System.out;
 
-	/**
-	 * Constants
-	 */
 	private static final String DEFAULT_HELP_COMMAND = "help";
 	private static final String DEFAULT_HELP_DESCRIPTION = "Display this help page.";
 	private static final String DEFAULT_EXIT_COMMAND = "exit";
 	private static final String DEFAULT_EXIT_DESCRIPTION = "Stop the active procedure and close the terminal.";
+
 	private static final String GET_INPUT_FORMAT = "%s: ";
-	private static final String UNRECOGNIZED_COMMAND_FORMAT = "Command not recognized: %s";
 	private static final String NEW_SERVICE = "New procedure attached to terminal: %s";
 	private static final String SERVICE_STOPPED = "Terminal stopped attached procedure: %s";
+
+	private static final String ERROR_UNRECOGNIZED_COMMAND = "Command not recognized: %s";
+	private static final String ERROR_DUPLICATE_COMMAND = "Command '%s' is already assigned.";
+	private static final String ERROR_NO_SUCH_COMMAND = "Command '%s' does not exist.";
+
 	private static final int LOOP_RATE = 1000 / 30; // Process input 30 times per second
 
 	/**
-	 * Input and output members.
+	 * The input stream from which to read input data.
 	 */
 	private final InputReader input;
+
+	/**
+	 * The output stream to which to write output data.
+	 */
 	private final PrintStream output;
 
 	/**
@@ -92,16 +95,22 @@ public class Terminal extends Service {
 	private Procedure procedure;
 
 	/**
-	 * Construct an interactive terminal with the standard input and output. The terminal
-	 * will immediately begin receiving input when constructed.
+	 * Construct an interactive terminal with the standard input and output.
+	 *
+	 * <p>
+	 * The terminal will immediately begin receiving input when constructed.
+	 * </p>
 	 */
 	public Terminal() {
 		this(DEFAULT_INPUT, DEFAULT_OUTPUT);
 	}
 
 	/**
-	 * Construct an interactive terminal. The terminal will immediately begin receiving input
-	 * when constructed.
+	 * Construct an interactive terminal.
+	 *
+	 * <p>
+	 * The terminal will immediately begin receiving input when constructed.
+	 * </p>
 	 *
 	 * @param input  Stream from which to read command input
 	 * @param output Stream to write standard output to
@@ -125,10 +134,11 @@ public class Terminal extends Service {
 	 * Add a new command-action mapping to the controls.
 	 *
 	 * @param command The command to be added
-	 * @throws DuplicateCommandException if command already exists
+	 * @throws TerminalCommandException if command already exists
 	 */
-	public void addCommand(TerminalCommand command) throws DuplicateCommandException {
-		if (registry.contains(command)) throw new DuplicateCommandException(command.getKey());
+	public void addCommand(TerminalCommand command) throws TerminalCommandException {
+		if (registry.contains(command))
+			throw new TerminalCommandException(String.format(ERROR_DUPLICATE_COMMAND, command.getKey()));
 		addOrReplaceCommand(command);
 	}
 
@@ -136,29 +146,35 @@ public class Terminal extends Service {
 	 * Replace an existing command-action mapping with the same key.
 	 *
 	 * @param command The command to be replaced
-	 * @throws NoSuchCommandException if command does not exist
+	 * @throws TerminalCommandException if command does not exist
 	 */
-	public void replaceCommand(TerminalCommand command) throws NoSuchCommandException {
-		if (!registry.contains(command)) throw new NoSuchCommandException(command.getKey());
+	public void replaceCommand(TerminalCommand command) throws TerminalCommandException {
+		if (!registry.contains(command))
+			throw new TerminalCommandException(String.format(ERROR_NO_SUCH_COMMAND, command.getKey()));
 		addOrReplaceCommand(command);
 	}
 
 	/**
-	 * Put a command-action mapping in the controls. Will replace
-	 * the current mapping if the command exists already
+	 * Put a command-action mapping in the controls.
+	 *
+	 * <p>
+	 * Will replace the current mapping if the command exists already
+	 * </p>
 	 *
 	 * @param command The command to be added
 	 */
 	public void addOrReplaceCommand(TerminalCommand command) {
 		try {
 			registry.put(command);
-		} catch (ReservedCommandException e) {
+		} catch (TerminalCommandException e) {
 			Log.error(e);
 		}
 	}
 
 	/**
 	 * Check if there's a line of input, and if so, return it.
+	 *
+	 * @return a line of input.
 	 */
 	private String getLine() {
 		synchronized (input) {
@@ -169,6 +185,8 @@ public class Terminal extends Service {
 
 	/**
 	 * Wait for a line of text input and return it.
+	 *
+	 * @return a line of input.
 	 */
 	private String waitForLine() {
 		synchronized (input) {
@@ -179,7 +197,8 @@ public class Terminal extends Service {
 	/**
 	 * Get a line of text input from the user.
 	 *
-	 * @param message Message to display to the user
+	 * @param message Message to display to the user.
+	 * @return the line entered by the user.
 	 */
 	public String requestString(String message) {
 		output.print(String.format(GET_INPUT_FORMAT, message));
@@ -189,7 +208,7 @@ public class Terminal extends Service {
 	/**
 	 * Prints a line of arbitrary text to the terminal's output stream.
 	 *
-	 * @param text The text to print
+	 * @param text The text to print.
 	 */
 	public void println(String text) {
 		output.println(text);
@@ -199,6 +218,8 @@ public class Terminal extends Service {
 	 * Get an integer from the user.
 	 *
 	 * @param message Message to display to the user.
+	 * @return the number entered by the user.
+	 * @throws NumberFormatException if the user did not enter a valid number.
 	 */
 	public int requestInt(String message) throws NumberFormatException {
 		return Integer.parseInt(requestString(message));
@@ -212,8 +233,11 @@ public class Terminal extends Service {
 	}
 
 	/**
-	 * Attach a procedure to this terminal which will be stopped when it exits. If
-	 * another procedure is currently attached, it will be stopped.
+	 * Attach a procedure to this terminal which will be stopped when it exits.
+	 *
+	 * <p>
+	 * If another procedure is currently attached, it will be stopped.
+	 * </p>
 	 *
 	 * @param procedure The procedure to attach
 	 */
@@ -234,8 +258,7 @@ public class Terminal extends Service {
 	}
 
 	/**
-	 * Continuously check for user input and attempt to execute a command
-	 * based on that input.
+	 * Continuously check for user input and attempt to execute a command based on that input.
 	 */
 	@Override
 	protected void run() {
@@ -245,18 +268,21 @@ public class Terminal extends Service {
 				synchronized (commandMutex) {
 					registry.execute(line);
 				}
-			} catch (NoSuchCommandException e) {
-				output.println(String.format(UNRECOGNIZED_COMMAND_FORMAT, line));
+			} catch (TerminalCommandException e) {
+				output.println(String.format(ERROR_UNRECOGNIZED_COMMAND, line));
 			}
 		}
 	}
 
 	/**
-	 * After execution stops, we need to close the procedure. This will NOT
-	 * close the input or output streams, so it is the responsibility of the
-	 * implementer to close these streams when finished with the terminal. If
-	 * no streams were explicitly passed to the terminal, it will use the
-	 * default System streams which probably should not be closed anyway.
+	 * After execution stops, we need to close the procedure.
+	 *
+	 * <p>
+	 * This will NOT close the input or output streams, so it is the responsibility of the
+	 * implementer to close these streams when finished with the terminal. If no streams
+	 * were explicitly passed to the terminal, it will use the default System streams which
+	 * probably should not be closed anyway.
+	 * </p>
 	 */
 	@Override
 	public void stop() {
