@@ -1,0 +1,23 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.vicinityconcepts.lib</groupId>
+  <artifactId>vc-lib</artifactId>
+  <name>Vicinity Concepts Core Library</name>
+  <version>1.0</version>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+      </extension>
+    </extensions>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>vc-ftp</id>
+      <url>ftp://vicinityconcepts.com</url>
+    </repository>
+  </distributionManagement>
+</project>
