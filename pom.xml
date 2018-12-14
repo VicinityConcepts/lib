@@ -1,0 +1,17 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.vicinityconcepts.lib</groupId>
+  <artifactId>vc-lib</artifactId>
+  <name>Vicinity Concepts Core Library</name>
+  <version>1.0</version>
+  <properties>
+    <maven.compiler.source>9</maven.compiler.source>
+    <maven.compiler.target>9</maven.compiler.target>
+  </properties>
+  <distributionManagement>
+    <repository>
+      <id>vc</id>
+      <url>file:///var/www/wp/code/maven</url>
+    </repository>
+  </distributionManagement>
+</project>
