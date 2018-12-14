@@ -28,6 +28,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.1</version>
                 <configuration>
+                    <!-- These settings are highly specific to the server environment! -->
                     <javadocExecutable>/usr/lib/jvm/java-11-oracle/bin</javadocExecutable>
                     <reportOutputDirectory>/var/www/wp/code</reportOutputDirectory>
                     <destDir>docs</destDir>
