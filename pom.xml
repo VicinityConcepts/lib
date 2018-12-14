@@ -21,6 +21,23 @@
             <version>4.12</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <reportOutputDirectory>/var/www/wp/code</reportOutputDirectory>
+                    <destDir>docs</destDir>
+                    <additionalOptions>
+                        <additionalOption>-html5</additionalOption>
+                        <additionalOption>-author</additionalOption>
+                    </additionalOptions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <distributionManagement>
         <repository>
             <id>vc</id>
