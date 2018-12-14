@@ -16,7 +16,7 @@
 
 package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.lib.util.Log;
+import com.vicinityconcepts.lib.util.LogLegacy;
 import com.vicinityconcepts.lib.util.Procedure;
 
 import java.io.IOException;
@@ -97,7 +97,7 @@ public class Server implements Procedure {
 		try {
 			socket.setSoTimeout(timeout);
 		} catch (SocketException e) {
-			Log.error(ERROR_SET_TIMEOUT, e);
+			LogLegacy.error(ERROR_SET_TIMEOUT, e);
 		}
 	}
 }

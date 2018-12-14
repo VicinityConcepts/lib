@@ -17,7 +17,7 @@
 package com.vicinityconcepts.lib.cmd;
 
 import com.vicinityconcepts.lib.util.InputReader;
-import com.vicinityconcepts.lib.util.Log;
+import com.vicinityconcepts.lib.util.LogLegacy;
 import com.vicinityconcepts.lib.util.Procedure;
 import com.vicinityconcepts.lib.util.Service;
 
@@ -167,7 +167,7 @@ public class Terminal extends Service {
 		try {
 			registry.put(command);
 		} catch (TerminalCommandException e) {
-			Log.error(e);
+			LogLegacy.error(e);
 		}
 	}
 
@@ -244,7 +244,7 @@ public class Terminal extends Service {
 	public void attach(Procedure procedure) {
 		stopAttachedService();
 		this.procedure = procedure;
-		Log.info(String.format(NEW_SERVICE, this.procedure.getName()));
+		LogLegacy.info(String.format(NEW_SERVICE, this.procedure.getName()));
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class Terminal extends Service {
 	private void stopAttachedService() {
 		if (this.procedure != null) {
 			this.procedure.stop();
-			Log.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
+			LogLegacy.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
 		}
 	}
 

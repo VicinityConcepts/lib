@@ -1,17 +1,30 @@
 <project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.vicinityconcepts.lib</groupId>
-  <artifactId>vc-lib</artifactId>
-  <name>Vicinity Concepts Core Library</name>
-  <version>1.0</version>
-  <properties>
-    <maven.compiler.source>9</maven.compiler.source>
-    <maven.compiler.target>9</maven.compiler.target>
-  </properties>
-  <distributionManagement>
-    <repository>
-      <id>vc</id>
-      <url>file:///var/www/wp/code/maven</url>
-    </repository>
-  </distributionManagement>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.vicinityconcepts.lib</groupId>
+    <artifactId>vc-lib</artifactId>
+    <name>Vicinity Concepts Core Library</name>
+    <version>1.0</version>
+    <properties>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>vc</id>
+            <url>file:///var/www/wp/code/maven</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -16,7 +16,7 @@
 
 package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.lib.util.Log;
+import com.vicinityconcepts.lib.util.LogLegacy;
 import com.vicinityconcepts.lib.util.Service;
 
 import java.io.EOFException;
@@ -73,7 +73,7 @@ public class Client extends Service {
 				synchronized (listener) {
 					listener.notifyAll();
 				}
-			} else Log.warn(WARN_RECEIVED_NULL);
+			} else LogLegacy.warn(WARN_RECEIVED_NULL);
 		} catch (SocketException e) {
 			stop();
 		} catch (EOFException e) {
@@ -81,11 +81,11 @@ public class Client extends Service {
 			// to reset it. If not, disconnect the client.
 			if (!attemptInputReset()) stop();
 		} catch (IllegalStateException e) {
-			Log.error(ERROR_QUEUE_CAPACITY, e);
+			LogLegacy.error(ERROR_QUEUE_CAPACITY, e);
 		} catch (ClassNotFoundException e) {
-			Log.error(ERROR_RECEIVE_CLASS, e);
+			LogLegacy.error(ERROR_RECEIVE_CLASS, e);
 		} catch (IOException e) {
-			Log.error(ERROR_RECEIVE, e);
+			LogLegacy.error(ERROR_RECEIVE, e);
 		}
 	}
 
@@ -98,17 +98,17 @@ public class Client extends Service {
 			output.close();
 			socket.close();
 		} catch (IOException e) {
-			Log.error(ERROR_CLOSE, e);
+			LogLegacy.error(ERROR_CLOSE, e);
 		}
 	}
 
 	private boolean attemptInputReset() {
 		try {
 			input.reset();
-			Log.info(INFO_INPUT_RESET_SUCCESS);
+			LogLegacy.info(INFO_INPUT_RESET_SUCCESS);
 			return true;
 		} catch (IOException e) {
-			Log.warn(WARN_INPUT_RESET_FAILED);
+			LogLegacy.warn(WARN_INPUT_RESET_FAILED);
 			return false;
 		}
 	}
@@ -122,7 +122,7 @@ public class Client extends Service {
 			output.writeObject(data);
 			output.flush();
 		} catch (IOException e) {
-			Log.error(ERROR_SEND, e);
+			LogLegacy.error(ERROR_SEND, e);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class Client extends Service {
 		try {
 			return queue.remove();
 		} catch (NoSuchElementException e) {
-			Log.warn(WARN_QUEUE_EMPTY);
+			LogLegacy.warn(WARN_QUEUE_EMPTY);
 			return null;
 		}
 	}

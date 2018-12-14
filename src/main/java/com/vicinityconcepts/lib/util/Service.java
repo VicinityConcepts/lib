@@ -76,7 +76,7 @@ public abstract class Service implements Procedure {
 		thread = new Thread(this::run0, name);
 		thread.start();
 
-		Log.info(String.format(SERVICE_STARTED, getName()));
+		LogLegacy.info(String.format(SERVICE_STARTED, getName()));
 	}
 
 	/**
@@ -93,7 +93,7 @@ public abstract class Service implements Procedure {
 		if (!running) return;
 		running = false;
 		thread.interrupt();
-		Log.info(String.format(SERVICE_STOPPED, getName()));
+		LogLegacy.info(String.format(SERVICE_STOPPED, getName()));
 	}
 
 	/**
