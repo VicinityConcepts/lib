@@ -17,7 +17,7 @@
 package com.vicinityconcepts.lib.net;
 
 import com.vicinityconcepts.lib.util.Job;
-import com.vicinityconcepts.lib.util.LogLegacy;
+import com.vicinityconcepts.lib.util.Log;
 import com.vicinityconcepts.lib.util.Service;
 import com.vicinityconcepts.lib.util.WorkerPool;
 
@@ -80,7 +80,7 @@ public class RequestManager extends Service {
 		try {
 			return requestProcessor.getDeclaredConstructor(Client.class, String.class).newInstance(sender, request);
 		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-			LogLegacy.error(ERROR_CREATE_JOB, e);
+			Log.error(ERROR_CREATE_JOB, e);
 			return null;
 		}
 	}

@@ -51,9 +51,9 @@ public class Worker extends Service {
 	@Override
 	protected void run() {
 		if (pickUpNewJob()) {
-			LogLegacy.info(String.format(STARTED_JOB, getName(), current.getName()));
+			Log.info(String.format(STARTED_JOB, getName(), current.getName()));
 			current.run();
-			LogLegacy.info(String.format(FINISHED_JOB, getName(), current.getName()));
+			Log.info(String.format(FINISHED_JOB, getName(), current.getName()));
 			clearCurrentJob();
 		} else waitForQueueActivity();
 	}
@@ -111,7 +111,7 @@ public class Worker extends Service {
 	private synchronized void killCurrentJob() {
 		if (current != null) {
 			current.kill();
-			LogLegacy.info(String.format(KILLED_JOB, getName(), current.getName()));
+			Log.info(String.format(KILLED_JOB, getName(), current.getName()));
 		}
 	}
 

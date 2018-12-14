@@ -17,7 +17,7 @@
 package com.vicinityconcepts.lib.cmd;
 
 import com.vicinityconcepts.lib.util.InputReader;
-import com.vicinityconcepts.lib.util.LogLegacy;
+import com.vicinityconcepts.lib.util.Log;
 import com.vicinityconcepts.lib.util.Procedure;
 import com.vicinityconcepts.lib.util.Service;
 
@@ -61,6 +61,7 @@ public class Terminal extends Service {
 	private static final String GET_INPUT_FORMAT = "%s: ";
 	private static final String NEW_SERVICE = "New procedure attached to terminal: %s";
 	private static final String SERVICE_STOPPED = "Terminal stopped attached procedure: %s";
+	private static final String ADD_OR_REPLACE_FAILED = "An error occurred while adding command to the registry.";
 
 	private static final String ERROR_UNRECOGNIZED_COMMAND = "Command not recognized: %s";
 	private static final String ERROR_DUPLICATE_COMMAND = "Command '%s' is already assigned.";
@@ -167,7 +168,7 @@ public class Terminal extends Service {
 		try {
 			registry.put(command);
 		} catch (TerminalCommandException e) {
-			LogLegacy.error(e);
+			Log.error(ADD_OR_REPLACE_FAILED, e);
 		}
 	}
 
@@ -244,7 +245,7 @@ public class Terminal extends Service {
 	public void attach(Procedure procedure) {
 		stopAttachedService();
 		this.procedure = procedure;
-		LogLegacy.info(String.format(NEW_SERVICE, this.procedure.getName()));
+		Log.info(String.format(NEW_SERVICE, this.procedure.getName()));
 	}
 
 	/**
@@ -253,7 +254,7 @@ public class Terminal extends Service {
 	private void stopAttachedService() {
 		if (this.procedure != null) {
 			this.procedure.stop();
-			LogLegacy.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
+			Log.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
 		}
 	}
 
