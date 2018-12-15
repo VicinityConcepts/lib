@@ -16,7 +16,6 @@
 
 package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.lib.util.Log;
 import com.vicinityconcepts.lib.util.Service;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class ClientManager extends Service {
 		} catch (SocketTimeoutException ignore) {
 			// Timeouts are expected
 		} catch (IOException e) {
-			Log.error(ERROR_ACCEPT, e);
+			LOG.error(ERROR_ACCEPT, e);
 		}
 	}
 

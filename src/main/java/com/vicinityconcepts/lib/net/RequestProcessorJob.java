@@ -17,7 +17,6 @@
 package com.vicinityconcepts.lib.net;
 
 import com.vicinityconcepts.lib.util.Job;
-import com.vicinityconcepts.lib.util.Log;
 
 public abstract class RequestProcessorJob extends Job {
 	private static final String ERROR_KILL = "Cannot kill request processor while it is processing.";
@@ -37,7 +36,7 @@ public abstract class RequestProcessorJob extends Job {
 
 	@Override
 	public void kill() {
-		Log.error(ERROR_KILL);
+		LOG.error(ERROR_KILL);
 	}
 
 	protected abstract Object process(String data);

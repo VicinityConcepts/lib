@@ -16,8 +16,9 @@
 
 package com.vicinityconcepts.lib.net;
 
-import com.vicinityconcepts.lib.util.Log;
 import com.vicinityconcepts.lib.util.Procedure;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Server implements Procedure {
+	protected static final Logger LOG = LogManager.getLogger();
 	private static final String ERROR_SET_TIMEOUT = "Server encountered an error while setting connection timeout.";
 	private static final int DEFAULT_CONNECTION_TIMEOUT = 1000;
 
@@ -97,7 +99,7 @@ public class Server implements Procedure {
 		try {
 			socket.setSoTimeout(timeout);
 		} catch (SocketException e) {
-			Log.error(ERROR_SET_TIMEOUT, e);
+			LOG.error(ERROR_SET_TIMEOUT, e);
 		}
 	}
 }

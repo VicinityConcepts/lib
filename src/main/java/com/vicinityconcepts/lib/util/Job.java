@@ -16,7 +16,11 @@
 
 package com.vicinityconcepts.lib.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public abstract class Job {
+	protected static final Logger LOG = LogManager.getLogger();
 	private final String name;
 
 	public Job() {

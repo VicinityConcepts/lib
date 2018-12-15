@@ -17,9 +17,10 @@
 package com.vicinityconcepts.lib.cmd;
 
 import com.vicinityconcepts.lib.util.InputReader;
-import com.vicinityconcepts.lib.util.Log;
 import com.vicinityconcepts.lib.util.Procedure;
 import com.vicinityconcepts.lib.util.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,6 +51,7 @@ import java.io.PrintStream;
  * @author Ryan Palmer
  */
 public class Terminal extends Service {
+	protected static final Logger LOG = LogManager.getLogger();
 	private static final InputStream DEFAULT_INPUT = System.in;
 	private static final OutputStream DEFAULT_OUTPUT = System.out;
 
@@ -168,7 +170,7 @@ public class Terminal extends Service {
 		try {
 			registry.put(command);
 		} catch (TerminalCommandException e) {
-			Log.error(ADD_OR_REPLACE_FAILED, e);
+			LOG.error(ADD_OR_REPLACE_FAILED, e);
 		}
 	}
 
@@ -245,7 +247,7 @@ public class Terminal extends Service {
 	public void attach(Procedure procedure) {
 		stopAttachedService();
 		this.procedure = procedure;
-		Log.info(String.format(NEW_SERVICE, this.procedure.getName()));
+		LOG.info(String.format(NEW_SERVICE, this.procedure.getName()));
 	}
 
 	/**
@@ -254,7 +256,7 @@ public class Terminal extends Service {
 	private void stopAttachedService() {
 		if (this.procedure != null) {
 			this.procedure.stop();
-			Log.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
+			LOG.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
 		}
 	}
 

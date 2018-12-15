@@ -16,6 +16,9 @@
 
 package com.vicinityconcepts.lib.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * A service is an ongoing processes that performs the same task
  * repeatedly in a loop until explicitly instructed to stop. Services
@@ -24,6 +27,7 @@ package com.vicinityconcepts.lib.util;
  * @author Ryan Palmer
  */
 public abstract class Service implements Procedure {
+	protected static final Logger LOG = LogManager.getLogger();
 	private static final String SERVICE_STARTED = "Service starting up: %s";
 	private static final String SERVICE_STOPPED = "Service shutting down: %s";
 	private static final String ERROR_INVALID_LOOP_RATE = "Specified loop rate (%d) is lower than the minimum required loop rate (%d).";
@@ -76,7 +80,7 @@ public abstract class Service implements Procedure {
 		thread = new Thread(this::run0, name);
 		thread.start();
 
-		Log.info(String.format(SERVICE_STARTED, getName()));
+		LOG.info(String.format(SERVICE_STARTED, getName()));
 	}
 
 	/**
@@ -93,7 +97,7 @@ public abstract class Service implements Procedure {
 		if (!running) return;
 		running = false;
 		thread.interrupt();
-		Log.info(String.format(SERVICE_STOPPED, getName()));
+		LOG.info(String.format(SERVICE_STOPPED, getName()));
 	}
 
 	/**
