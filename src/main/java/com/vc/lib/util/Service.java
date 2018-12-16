@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
  * @author Ryan Palmer
  */
 public abstract class Service implements Procedure {
-	protected static final Logger LOG = LogManager.getLogger();
+	private static final Logger LOG = LogManager.getLogger();
 	private static final String SERVICE_STARTED = "Service starting up: %s";
 	private static final String SERVICE_STOPPED = "Service shutting down: %s";
 	private static final String ERROR_INVALID_LOOP_RATE = "Specified loop rate (%d) is lower than the minimum required loop rate (%d).";

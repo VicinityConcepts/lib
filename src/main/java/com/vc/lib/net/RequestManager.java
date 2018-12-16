@@ -19,10 +19,13 @@ package com.vc.lib.net;
 import com.vc.lib.util.Job;
 import com.vc.lib.util.Service;
 import com.vc.lib.util.WorkerPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 
 public class RequestManager extends Service {
+	private static final Logger LOG = LogManager.getLogger();
 	private static final int WORKERS = 8;
 	private static final String ERROR_CREATE_JOB = "Encountered an error while generating request processor job.";
 

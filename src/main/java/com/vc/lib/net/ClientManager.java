@@ -17,11 +17,14 @@
 package com.vc.lib.net;
 
 import com.vc.lib.util.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
 public class ClientManager extends Service {
+	private static final Logger LOG = LogManager.getLogger();
 	private static final String ERROR_ACCEPT = "Client manager encountered an error while waiting for new connections.";
 
 	private final Server server;

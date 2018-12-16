@@ -16,6 +16,9 @@
 
 package com.vc.lib.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -24,6 +27,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Ryan Palmer
  */
 public class Worker extends Service {
+	private static final Logger LOG = LogManager.getLogger();
 	private static final String STARTED_JOB = "%s started: %s";
 	private static final String FINISHED_JOB = "%s finished: %s";
 	private static final String KILLED_JOB = "%s killed: %s";

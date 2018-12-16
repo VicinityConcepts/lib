@@ -17,6 +17,8 @@
 package com.vc.lib.net;
 
 import com.vc.lib.util.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -31,6 +33,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 public class Client extends Service {
+	private static final Logger LOG = LogManager.getLogger();
 	private static final String ERROR_SEND = "Encountered an error while sending data.";
 	private static final String ERROR_RECEIVE = "Encountered an error while receiving data.";
 	private static final String ERROR_RECEIVE_CLASS = "Received an unrecognized object type.";
