@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.vicinityconcepts.lib</groupId>
+    <groupId>com.vc.lib</groupId>
     <artifactId>vc-lib</artifactId>
     <name>Vicinity Concepts Core Library</name>
     <version>1.0</version>
