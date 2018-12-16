@@ -50,16 +50,20 @@ public class WorkerPool implements Procedure {
 	 * Start all workers in this pool.
 	 */
 	@Override
-	public void start() {
-		for (Worker w : workers) w.start();
+	public boolean start() {
+		boolean success = true;
+		for (Worker w : workers) success = w.start() && success;
+		return success;
 	}
 
 	/**
 	 * Stop all workers in this pool.
 	 */
 	@Override
-	public void stop() {
-		for (Worker w : workers) w.stop();
+	public boolean stop() {
+		boolean success = true;
+		for (Worker w : workers) success = w.stop() && success;
+		return success;
 	}
 
 	/**

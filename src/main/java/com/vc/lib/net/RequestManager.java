@@ -40,15 +40,15 @@ public class RequestManager extends Service {
 	}
 
 	@Override
-	public void start() {
+	public boolean start() {
 		super.start();
-		workers.start();
+		return workers.start();
 	}
 
 	@Override
-	public void stop() {
+	public boolean stop() {
 		super.stop();
-		workers.stop();
+		return workers.stop();
 	}
 
 	@Override

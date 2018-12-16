@@ -45,8 +45,9 @@ public class ClientManager extends Service {
 	}
 
 	@Override
-	public void stop() {
-		super.stop();
+	public boolean stop() {
+		boolean success = super.stop();
 		server.disconnectAllClients();
+		return success;
 	}
 }

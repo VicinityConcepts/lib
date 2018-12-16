@@ -32,6 +32,10 @@ public abstract class Service implements Procedure {
 	private static final String SERVICE_STOPPED = "Service shutting down: %s";
 	private static final String ERROR_INVALID_LOOP_RATE = "Specified loop rate (%d) is lower than the minimum required loop rate (%d).";
 	private static final String THREAD_NAME_FORMAT = "%s-service";
+	private static final String ANONYMOUS_SERVICE_NAME = "anonymous";
+	private static final String SHUTDOWN_HOOK_THREAD_NAME = "service-shutdown-hook";
+	private static final String SHUTDOWN_HOOK_ENABLED = "JVM shutdown hook enabled.";
+	private static final String SHUTDOWN_HOOK_DISABLED = "JVM shutdown hook disabled. This usually means another process will manage this service's lifecycle.";
 	private static final int DEFAULT_LOOP_RATE = 1000 / 10; // Default 10 loops per second
 	private static final int MINIMUM_LOOP_RATE = 1000 / 60; // No more than 60 loops per second
 
@@ -62,10 +66,22 @@ public abstract class Service implements Procedure {
 	private volatile boolean finished = true;
 
 	/**
+	 * This flag indicates whether or not the JVM shutdown hook is enabled.
+	 */
+	private volatile boolean shutdownHookEnabled = true;
+
+	/**
+	 * The shutdown hook thread that will be run at JVM shutdown.
+	 */
+	private final Thread shutdownHook = new Thread(this::stop, SHUTDOWN_HOOK_THREAD_NAME);
+
+	/**
 	 * Construct a service.
 	 */
 	public Service() {
 		name = this.getClass().getSimpleName();
+		if (name.isEmpty()) name = ANONYMOUS_SERVICE_NAME;
+		Runtime.getRuntime().addShutdownHook(shutdownHook);
 	}
 
 	/**
@@ -73,8 +89,8 @@ public abstract class Service implements Procedure {
 	 * already running.
 	 */
 	@Override
-	public void start() {
-		if (!finished) return;
+	public boolean start() {
+		if (!finished) return false;
 		finished = false;
 		running = true;
 
@@ -82,6 +98,7 @@ public abstract class Service implements Procedure {
 		thread.start();
 
 		LOG.info(String.format(SERVICE_STARTED, getName()));
+		return true;
 	}
 
 	/**
@@ -94,11 +111,12 @@ public abstract class Service implements Procedure {
 	 * </p>
 	 */
 	@Override
-	public void stop() {
-		if (!running) return;
+	public boolean stop() {
+		if (!running) return false;
 		running = false;
 		thread.interrupt();
 		LOG.info(String.format(SERVICE_STOPPED, getName()));
+		return true;
 	}
 
 	/**
@@ -233,5 +251,22 @@ public abstract class Service implements Procedure {
 	 */
 	public final void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Enable or disable the JVM shutdown hook.
+	 *
+	 * <p>Does nothing if hook is already enabled.</p>
+	 */
+	public final void setShutdownHookEnabled(boolean enabled) {
+		if (shutdownHookEnabled == enabled) return;
+		shutdownHookEnabled = enabled;
+		if (shutdownHookEnabled) {
+			Runtime.getRuntime().addShutdownHook(shutdownHook);
+			LOG.info(SHUTDOWN_HOOK_ENABLED);
+		} else {
+			Runtime.getRuntime().removeShutdownHook(shutdownHook);
+			LOG.info(SHUTDOWN_HOOK_DISABLED);
+		}
 	}
 }

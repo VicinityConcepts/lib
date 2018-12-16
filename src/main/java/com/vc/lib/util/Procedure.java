@@ -26,12 +26,12 @@ public interface Procedure {
 	/**
 	 * Start the procedure.
 	 */
-	void start();
+	boolean start();
 
 	/**
 	 * Stop the procedure.
 	 */
-	void stop();
+	boolean stop();
 
 	/**
 	 * Get the identifying name of the procedure, which defaults to

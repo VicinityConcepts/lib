@@ -58,11 +58,16 @@ public class Terminal extends Service {
 	private static final String DEFAULT_HELP_COMMAND = "help";
 	private static final String DEFAULT_HELP_DESCRIPTION = "Display this help page.";
 	private static final String DEFAULT_EXIT_COMMAND = "exit";
-	private static final String DEFAULT_EXIT_DESCRIPTION = "Stop the active procedure and close the terminal.";
+	private static final String DEFAULT_EXIT_DESCRIPTION = "Stop the attached procedure and close the terminal.";
+	private static final String DEFAULT_START_COMMAND = "start";
+	private static final String DEFAULT_START_DESCRIPTION = "Start the attached procedure.";
+	private static final String DEFAULT_STOP_COMMAND = "stop";
+	private static final String DEFAULT_STOP_DESCRIPTION = "Stop the attached procedure.";
 
 	private static final String GET_INPUT_FORMAT = "%s: ";
 	private static final String NEW_SERVICE = "New procedure attached to terminal: %s";
-	private static final String SERVICE_STOPPED = "Terminal stopped attached procedure: %s";
+	private static final String PROCEDURE_STARTED = "Terminal started attached procedure: %s";
+	private static final String PROCEDURE_STOPPED = "Terminal stopped attached procedure: %s";
 	private static final String ADD_OR_REPLACE_FAILED = "An error occurred while adding command to the registry.";
 
 	private static final String ERROR_UNRECOGNIZED_COMMAND = "Command not recognized: %s";
@@ -112,7 +117,8 @@ public class Terminal extends Service {
 	 * Construct an interactive terminal.
 	 *
 	 * <p>
-	 * The terminal will immediately begin receiving input when constructed.
+	 * The terminal will immediately begin receiving input when constructed. The
+	 * terminal will also stop itself and the attached procedure during JVM shutdown.
 	 * </p>
 	 *
 	 * @param input  Stream from which to read command input
@@ -123,10 +129,12 @@ public class Terminal extends Service {
 		this.input = new InputReader(input);
 		this.output = new PrintStream(output, true);
 
-		// Define the default exit and help commands and construct registry
-		TerminalCommand help = new TerminalCommand(DEFAULT_HELP_COMMAND, this::help, DEFAULT_HELP_DESCRIPTION);
+		// Define the default commands and construct registry
+		TerminalCommand start = new TerminalCommand(DEFAULT_START_COMMAND, this::startAttachedProcedure, DEFAULT_START_DESCRIPTION);
+		TerminalCommand stop = new TerminalCommand(DEFAULT_STOP_COMMAND, this::stopAttachedProcedure, DEFAULT_STOP_DESCRIPTION);
 		TerminalCommand exit = new TerminalCommand(DEFAULT_EXIT_COMMAND, this::stop, DEFAULT_EXIT_DESCRIPTION);
-		registry = new TerminalCommandRegistry(help, exit);
+		TerminalCommand help = new TerminalCommand(DEFAULT_HELP_COMMAND, this::help, DEFAULT_HELP_DESCRIPTION);
+		registry = new TerminalCommandRegistry(start, stop, exit, help);
 
 		// Start receiving input
 		setLoopRate(LOOP_RATE);
@@ -245,19 +253,26 @@ public class Terminal extends Service {
 	 * @param procedure The procedure to attach
 	 */
 	public void attach(Procedure procedure) {
-		stopAttachedService();
+		stopAttachedProcedure();
 		this.procedure = procedure;
+		if (procedure instanceof Service) ((Service) procedure).setShutdownHookEnabled(false);
 		LOG.info(String.format(NEW_SERVICE, this.procedure.getName()));
+	}
+
+	/**
+	 * If a procedure is attached to this terminal, start it.
+	 */
+	private void startAttachedProcedure() {
+		if (this.procedure != null)
+			if (this.procedure.start()) LOG.info(String.format(PROCEDURE_STARTED, this.procedure.getName()));
 	}
 
 	/**
 	 * If a procedure is attached to this terminal, stop it.
 	 */
-	private void stopAttachedService() {
-		if (this.procedure != null) {
-			this.procedure.stop();
-			LOG.info(String.format(SERVICE_STOPPED, this.procedure.getName()));
-		}
+	private void stopAttachedProcedure() {
+		if (this.procedure != null)
+			if (this.procedure.stop()) LOG.info(String.format(PROCEDURE_STOPPED, this.procedure.getName()));
 	}
 
 	/**
@@ -288,8 +303,9 @@ public class Terminal extends Service {
 	 * </p>
 	 */
 	@Override
-	public void stop() {
+	public boolean stop() {
 		super.stop();
-		stopAttachedService();
+		stopAttachedProcedure();
+		return true;
 	}
 }

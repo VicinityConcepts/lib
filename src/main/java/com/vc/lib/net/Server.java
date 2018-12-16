@@ -50,15 +50,13 @@ public class Server implements Procedure {
 	}
 
 	@Override
-	public void start() {
-		clientManager.start();
-		requestManager.start();
+	public boolean start() {
+		return clientManager.start() && requestManager.start();
 	}
 
 	@Override
-	public void stop() {
-		requestManager.stop();
-		clientManager.stop();
+	public boolean stop() {
+		return requestManager.stop() && clientManager.stop();
 	}
 
 	public Client accept() throws IOException {

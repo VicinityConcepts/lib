@@ -92,15 +92,17 @@ public class Client extends Service {
 	}
 
 	@Override
-	public void stop() {
+	public boolean stop() {
 		try {
-			super.stop();
+			boolean success = super.stop();
 			if (onDisconnect != null) onDisconnect.accept(this);
 			input.close();
 			output.close();
 			socket.close();
+			return success;
 		} catch (IOException e) {
 			LOG.error(ERROR_CLOSE, e);
+			return false;
 		}
 	}
 
