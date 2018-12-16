@@ -31,6 +31,7 @@ public abstract class Service implements Procedure {
 	private static final String SERVICE_STARTED = "Service starting up: %s";
 	private static final String SERVICE_STOPPED = "Service shutting down: %s";
 	private static final String ERROR_INVALID_LOOP_RATE = "Specified loop rate (%d) is lower than the minimum required loop rate (%d).";
+	private static final String THREAD_NAME_FORMAT = "%s-service";
 	private static final int DEFAULT_LOOP_RATE = 1000 / 10; // Default 10 loops per second
 	private static final int MINIMUM_LOOP_RATE = 1000 / 60; // No more than 60 loops per second
 
@@ -77,7 +78,7 @@ public abstract class Service implements Procedure {
 		finished = false;
 		running = true;
 
-		thread = new Thread(this::run0, name);
+		thread = new Thread(this::run0, String.format(THREAD_NAME_FORMAT, name.toLowerCase()));
 		thread.start();
 
 		LOG.info(String.format(SERVICE_STARTED, getName()));
